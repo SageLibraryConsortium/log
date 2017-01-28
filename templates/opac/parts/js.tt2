@@ -7,7 +7,7 @@
         var validformat = /^(19|20)\d\d([- /.])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/
         var returnval = false
         if (!validformat.test(input.value))
-            alert("You have entered an invalid date, or an improperly formatted date.  Please enter Date of Birth in YYYY-MM-DD or YYYY/MM/DD format and try again.")
+            alert("[% l('You have entered an invalid date, or an improperly formatted date.  Please enter Date of Birth in YYYY-MM-DD or YYYY/MM/DD format and try again.') %]")
         else
             returnval = true
         if (returnval == false) input.select()
@@ -121,5 +121,29 @@ var aou_hash = {
 [% END %]
 };
 </script>
+
+<!-- Require radio parts selection for browsers that don't support required form field element -->
+[% IF ctx.page == 'place_hold' %]
+  <script type="text/javascript">
+    function validateRadioSelection (radios) {
+       for (i = 0; i < radios.length; ++ i)
+       {
+         if (radios[i].checked) return true;
+       }
+       return false;
+    }
+    function validateHoldForm() {
+      if (validateRadioSelection (document.getElementsByName("part")))
+      {
+        return true;
+       }
+       else
+       {
+          alert ("Please select a part");
+          return false;
+        }
+     }
+  </script>
+[% END %]
 
 [%- END; # want_dojo -%]
